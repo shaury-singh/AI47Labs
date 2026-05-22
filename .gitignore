@@ -1,0 +1,4 @@
+.env
+__pycache__/
+Generated_Images/
+Generated_Videos/
