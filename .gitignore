@@ -2,3 +2,4 @@
 __pycache__/
 Generated_Images/
 Generated_Videos/
+*.mp4

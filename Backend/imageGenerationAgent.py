@@ -1,6 +1,9 @@
 from huggingface_hub import InferenceClient
+from cloudinaryUploader import upload_image
 import os
 from dotenv import load_dotenv
+
+load_dotenv()
 
 hf_client = InferenceClient(
     provider="hf-inference",
@@ -42,6 +45,9 @@ def generate_ad_images(prompts, name):
         )
         output_path = f"Generated_Images/{name}/{name}{i+1}.png"
         image.save(output_path)
-        generated_images.append(output_path)
-        print(f"Generated: {output_path}")
+        cloud_url = upload_image(output_path)
+        generated_images.append(cloud_url)
+        # generated_images.append(output_path)
+        # print(f"Generated: {output_path}")
+        print(f"Uploaded: {cloud_url}")
     return generated_images

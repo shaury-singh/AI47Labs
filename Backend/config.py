@@ -137,6 +137,112 @@ def config_prompts(prompt_id, data):
             }}
             PROMPT:
             {data}
+        """,
+        "script_generation_agent_prompt": f"""
+            You are an expert Direct Response Marketing Copywriter and Video Advertisement Strategist.
+            Your task is to create a short-form video advertisement script for social media platforms such as TikTok, Instagram Reels, YouTube Shorts, and Facebook Ads.
+            OBJECTIVE:
+            Create a high-converting advertisement storyboard designed to maximize:
+            - Attention
+            - Curiosity
+            - Emotional engagement
+            - Product understanding
+            - Conversion
+            INPUT:
+            Marketing research data including:
+            - Marketing hooks
+            - Emotional triggers
+            - Target audience
+            - Product features
+            - Product benefits
+            INSTRUCTIONS:
+            Generate exactly 5 scenes.
+            Scene Structure:
+            1. Hook
+               - Capture attention within 3 seconds.
+               - Create curiosity or identify a pain point.
+            2. Problem
+               - Highlight the customer's frustration or challenge.
+            3. Solution
+               - Introduce the product as the solution.
+            4. Benefits
+               - Showcase the strongest product benefit or transformation.
+            5. Call To Action
+               - Encourage the viewer to take action.
+            For each scene generate:
+            - scene_number
+            - scene_type
+            - visual_description
+            - on_screen_text
+            - voiceover
+            - emotion
+            - duration_seconds
+            RULES:
+            - Voiceover must sound natural and conversational.
+            - On-screen text must be short and punchy.
+            - Hook must be under 10 words.
+            - CTA must be action-oriented.
+            - Visual descriptions should be suitable for AI image generation.
+            - Each scene should flow naturally into the next.
+            - Focus on selling outcomes, not features.
+            - Use emotional marketing principles.
+            - Optimize for social media advertisement performance.
+            RETURN ONLY VALID JSON.
+            Format:
+            {{
+              "ad_title": "",
+              "target_audience": "",
+              "total_duration": 25,
+              "scenes": [
+                {{
+                  "scene_number": 1,
+                  "scene_type": "hook",
+                  "visual_description": "",
+                  "on_screen_text": "",
+                  "voiceover": "",
+                  "emotion": "",
+                  "duration_seconds": 5
+                }},
+                {{
+                  "scene_number": 2,
+                  "scene_type": "problem",
+                  "visual_description": "",
+                  "on_screen_text": "",
+                  "voiceover": "",
+                  "emotion": "",
+                  "duration_seconds": 5
+                }},
+                {{
+                  "scene_number": 3,
+                  "scene_type": "solution",
+                  "visual_description": "",
+                  "on_screen_text": "",
+                  "voiceover": "",
+                  "emotion": "",
+                  "duration_seconds": 5
+                }},
+                {{
+                  "scene_number": 4,
+                  "scene_type": "benefits",
+                  "visual_description": "",
+                  "on_screen_text": "",
+                  "voiceover": "",
+                  "emotion": "",
+                  "duration_seconds": 5
+                }},
+                {{
+                  "scene_number": 5,
+                  "scene_type": "cta",
+                  "visual_description": "",
+                  "on_screen_text": "",
+                  "voiceover": "",
+                  "emotion": "",
+                  "duration_seconds": 5
+                }}
+              ]
+            }}
+            MARKETING DATA:
+            {data}
         """
     }
     return configPrompts[prompt_id]
@@ -166,6 +272,16 @@ def return_model_info(modelInfo,data):
         "payload_strategy_prompt" : {
             "model": "qwen2.5:1.5b",
             "prompt": config_prompts("generate_creative_strategy_prompts",data),
+            "stream": False,
+            "format": "json",
+            "options": {
+                "temperature": 0.1,
+                "num_predict": 1000
+            }
+        },
+        "script_writer_prompt" : {
+            "model": "qwen2.5:1.5b",
+            "prompt": config_prompts("script_generation_agent_prompt",data),
             "stream": False,
             "format": "json",
             "options": {
